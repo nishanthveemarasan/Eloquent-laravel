@@ -143,7 +143,6 @@
     <pre><b>
         $today = date('Y-m-d')." 23:59:59";
         $last = date('Y-m-d' , strtotime($today . ' -7 day'))." 23:59:59";
-        
         $result = users::whereBetween('created_at' , [$last , $today])->get()->count();
     </b>
     </pre>
