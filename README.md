@@ -154,3 +154,62 @@
             ->get()
             ->toArray();
     </b></pre>
+       <br>
+    <br>
+    <h5>#Ordering, Grouping, Limit & Offset</h5>
+    <hr>
+    <h6>Ordering</h6>
+    <pre><b>
+        $getCity = Payment::orderBy('amount', 'desc') //asc desc
+                            ->get()
+                            ->toArray();
+    </b></pre>
+    <br>
+    <h6>Latest and oldest Methods</h6>
+    <p>It will order by dates(created_at column)</p>
+    <pre><b>
+        $getCity = Payment::latest()
+                            ->first();
+    </b></pre>
+    <br>
+    <br>
+    <h5>Joins</h5>
+    <pre><b>
+        $getCity = DB::table('payment')
+                        ->join('customer', 'customer.customer_id', '=', 'payment.customer_id')
+                        ->join('staff', 'staff.staff_id', '=', 'payment.staff_id')
+                        ->select('payment.*', 'customer.first_name as customer_name' , 'staff.first_name as staff_name')
+                        ->limit(100)
+                        ->get()
+                        ->toArray();
+    </b></pre>
+      <br>
+    <br>
+    <h5>#Ordering, Grouping, Limit & Offset</h5>
+    <hr>
+    <h6>Ordering</h6>
+    <pre><b>
+        $getCity = Payment::orderBy('amount', 'desc') //asc desc
+                            ->get()
+                            ->toArray();
+    </b></pre>
+    <br>
+    <h6>Latest and oldest Methods</h6>
+    <p>It will order by dates(created_at column)</p>
+    <pre><b>
+        $getCity = Payment::latest()
+                            ->first();
+    </b></pre>
+    <br>
+    <br>
+    <h5>Joins</h5>
+    <pre><b>
+        $getCity = DB::table('payment')
+                    ->join('customer', 'customer.customer_id', '=', 'payment.customer_id')
+                    ->join('staff', 'staff.staff_id', '=', 'payment.staff_id')
+                    ->select('payment.*', DB::raw('CONCAT(customer.first_name," ",customer.last_name) as customer_name'), 
+                        DB::raw('CONCAT(staff.first_name," ",staff.last_name )as staff_name'))
+                    ->limit(100)
+                    ->get()
+                    ->toArray();
+    </b></pre>

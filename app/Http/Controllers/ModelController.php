@@ -13,11 +13,14 @@ class ModelController extends Controller
     public function modelGet()
     {
         $cusId = array(1, 2, 3, 4, 5, 8);
-        $getCity = Payment::select('customer_id', DB::raw('sum(amount) as totalPayment , count(customer_id) as totalRecords'))
-            ->whereMonth('payment_date', '2')
-            ->groupBy('customer_id')
-            ->get()
-            ->toArray();
+        $getCity = DB::table('payment')
+                        ->join('customer', 'customer.customer_id', '=', 'payment.customer_id')
+                        ->join('staff', 'staff.staff_id', '=', 'payment.staff_id')
+                        ->select('payment.*', DB::raw('CONCAT(customer.first_name," ",customer.last_name) as customer_name'), 
+                            DB::raw('CONCAT(staff.first_name," ",staff.last_name )as staff_name'))
+                        ->limit(100)
+                        ->get()
+                        ->toArray();
         dd($getCity);
     }
 
