@@ -12,20 +12,23 @@ class ModelController extends Controller
 {
     public function modelGet()
     {
-
-        $getCity = Payment::where('amount', '>', '2')
-                    ->orWhere('customer_id', '<', '10')
-                    ->get()->toArray();
+        $cusId = array(1, 2, 3, 4, 5, 8);
+        $getCity = Payment::select('customer_id', DB::raw('sum(amount) as totalPayment , count(customer_id) as totalRecords'))
+            ->whereMonth('payment_date', '2')
+            ->groupBy('customer_id')
+            ->get()
+            ->toArray();
         dd($getCity);
     }
 
-    public function writeCode(){
-        $sql = Payment::where('votes' , '>' , '100')
-                        ->orWhere(function($query){
-                            $query->where('name' , 'Abc')
-                                    ->where('votes' ,'>','100');
-                        })
-                        ->get()
-                        ->toArray();
+    public function writeCode()
+    {
+        $sql = Payment::where('votes', '>', '100')
+            ->orWhere(function ($query) {
+                $query->where('name', 'Abc')
+                    ->where('votes', '>', '100');
+            })
+            ->get()
+            ->toArray();
     }
 }
