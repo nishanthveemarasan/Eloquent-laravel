@@ -203,7 +203,8 @@
     <br>
     <br>
     <h5>Joins</h5>
-    <pre><b>
+
+       <pre><b>
         $getCity = DB::table('payment')
                     ->join('customer', 'customer.customer_id', '=', 'payment.customer_id')
                     ->join('staff', 'staff.staff_id', '=', 'payment.staff_id')
