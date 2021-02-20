@@ -50,3 +50,20 @@
         $this->attributes['amount'] = $value * 100;
     }
  </b></pre>
+  <hr>
+    <p><b>Mutator and accessor</b> are converting the attribute values from one format to another</p>
+    <p><b>Attribute casting</b> are converting the attribute datatype from one to another when retrieve </p>
+ <h4>#Attribute Casting</h4>
+ <hr>
+ <p>Here we store the data in one format and we want it to return in the different format</p>
+ <p>for example, store as json format and returned in array format</p>
+<p>Exercise we store number->string , status->int , detail->json</p>
+<p>when we retrieve, we need them in different format</p>
+<br>
+<pre><b>
+    protected $casts = [
+        'number' => 'integer', //now number will be converted from string to int
+        'status' => 'boolean', // now status will return either true or false
+        'details' => 'array' // now it will retrun the result as an array
+    ];
+</b></pre>

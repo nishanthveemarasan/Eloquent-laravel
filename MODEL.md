@@ -11,8 +11,8 @@
     <p>if the table has the primary key other than <b>id</b> , we have to define the primary key</p>
     <br>
     <h4>Time stamps</h4>
-    <h6>protected $timestamps = false</h6>
-    <p>if the table doest have the <b>created_at</b> and <b>updated_at</b></p>
+    <h6>public $timestamps = false</h6>
+    <p>if the table doesnt have the <b>created_at</b> and <b>updated_at</b></p>
     <br>
     <p>if we have customised timestamp names</p>
     <h6>const CREATED_AT = 'creation_at'</h6>
@@ -26,7 +26,19 @@
     <p>if we want to define a default values for some of the model's attributes,</p>
     <h6>protected $attributes = array( 'attribute_name' , false,)</h6>
     <br>
+    <h5>#fillable / guarded</h5>
+<p><b>Fillable</b> assign the variables into it to be able to insert</p>
+<h6>protected $fillable = ['col1' , 'col2']</h6><span>only these will be inserted </span>
+<h6> protected $guarded = []; </h6><span>// if it is empty then all values wil be inserted</span>
+<br>
+<h5>Hiding Attributes From JSON</h5>
+    <p>Attributes that are listed in the hidden property's array will not be included in toArray()/toJson()</p>
+    <h6>protected $hidden = ['attributeName1', 'attributeName1]</h6>
+    <br>
+<br><br>
+
     <h4>Model Operations</h4>
+
  <hr>
  <h5>Retrieving A Single Row</h5>
  <h6>modelName::first()</h6>
@@ -208,7 +220,7 @@
         $getCity = DB::table('payment')
                     ->join('customer', 'customer.customer_id', '=', 'payment.customer_id')
                     ->join('staff', 'staff.staff_id', '=', 'payment.staff_id')
-                    ->select('payment.*', DB::raw('CONCAT(customer.first_name," ",customer.last_name) as customer_name'), 
+                    ->select('payment.*', DB::raw('CONCAT(customer.first_name," ",customer.last_name) as customer_name'),
                         DB::raw('CONCAT(staff.first_name," ",staff.last_name )as staff_name'))
                     ->limit(100)
                     ->get()
