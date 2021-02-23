@@ -9,16 +9,25 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use App\Events\NewCustomerHasRegisteredEvent;
 
 class ModelController extends Controller
 {
     public function modelGet()
     {
-        $getPayment = Payment::first()->toArray();
+        $getPayment = Payment::first();
         $array = array('a' => 'b');
         $time = now()->addMinutes(30);
-        Cache::forget('key');
-        dd(Cache::get('key'));
+        
+        //once we create a user
+        event(new NewCustomerHasRegisteredEvent($getPayment));
+        //sendng welcome email
+
+        //Regiter the new users to News Letter
+
+        //Slack notification to admin about new users
+
+        //Listers listring for specific event to happen
     }
 
     public function writeCode()
