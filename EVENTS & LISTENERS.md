@@ -1,15 +1,12 @@
-
-    <h3>#Events and Listeners</h3>
-    </h3>
+ <h3>#Events and Listeners</h3>
     <hr>
-    <p>We can create an event that will perform the actions through the listeners</p>
+     <p>We can create an event that will perform the actions through the listeners</p>
     <p>Event usually holds the data that is used by listeners </p>
     <br>
     <b>Once we create a clinet, following events will occur</b>
     <b>1. welcome email will be sent to the new user</b>
     <b>2. The new user will be registered to NEws Letter</b>
     <b>1. Notification will be sent to admin</b>
-
     <br>
     <p><b>So user creation is an event and those 3 actions are listeners</b></p>
     <br>
@@ -18,14 +15,12 @@
     <br>
     <pre><b>
         $customer = Customer::create($user);
-    
         //call the event  and pass the customer data
         event(new NewCustomerHasRegisteredEvent($customer));
     </b></pre>
     <h5>In NewCustomerHasRegisteredEvent event class</h5>
     <pre><b>
         public $customer; //this should be public to be used by listeners
-    
         public function __construct($customer)
         {
             $this->customer = $customer;
@@ -60,7 +55,7 @@
         use App\Events\NewCustomerHasRegisteredEvent;
         use App\Listeners\RegisterNEwsLetterListener;
         use App\Listeners\WelcomeNewCustomerListener;
-        
+        //
         protected $listen = [
         NewCustomerHasRegisteredEvent::class => [
             WelcomeNewCustomerListener::class,
