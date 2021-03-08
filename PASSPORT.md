@@ -1,38 +1,101 @@
-<h3>#Cache</h3>
+<h3>#Passport</h3>
     <hr>
-    <h4>#Storing Items in the Cache</h4>
-    <p><b>Format: Cache($key , $value , Time)</b></p>
-    <br>
+    <h4>Installation</h4>
     <pre><b>
-    $time = now()->addMinutes(30);
-    Cache::put('key' , $value , $time);
-   </b></pre>
-    <br>
-    <p>If the storage time is not passed then the item will be stored indefinitely</p>
-    <pre><b>
-        Cache::put('key' , $value );
-       </b></pre>
-       <br>
-       <br>
-    <h4>#access the Items from the Cache</h4>
-    <pre><b>
-    Cache::get($key);
-   </b></pre>
-    <br>
-    <h4>#Store if not Present</h4>
-    <p><b>add</b> method will only add the item to the cache if it doesnt already exist in the cache</p>
-    <pre><b>
-        Cache::add($key, $value, $time);
+        composer require laravel/passport
     </b></pre>
     <br>
-    <br>
-    <h4>#Removing the Items from the Cache</h4>
-    <p>To remove an item from the cache</p>
+    <h5>#migrate Passport tables</h5>
     <pre><b>
-        Cache::forget($key)
+        php artisan migrate
     </b></pre>
     <br>
-    <p>To clear the entire item from the cache</p>
+    <h5>#intall passport to generate the Encryption keys</h5>
     <pre><b>
-        Cache::flush()
+        php artisan passport:install
     </b></pre>
+    <br>
+    <p>After thaat add, <b>Laravel\Passport\HasApiTokens</b> in the user Model</p>
+    <pre><b>
+        use Laravel\Passport\HasApiTokens;
+        class User extends Authenticatable
+        {
+            use HasApiTokens, HasFactory, Notifiable;
+        }
+    </b></pre>
+    <br>
+    <p>Next, we Should add the <b>Passport::routes</b> method withinthe <b>boot</b> method
+        of the <b>App\Providers\AuthServiceProvider</b></p>
+    <p>This will register the routes necessary to issue access tokens and revoke access tokens, clients, and personal
+        access tokens</p>
+    <br>
+    <pre><b>
+            use Laravel\Passport\Passport;
+            class AuthServiceProvider extends ServiceProvider
+            {
+                public function boot()
+                {
+                    Passport::routes();
+                }
+            }
+        </b></pre>
+    <br>
+    <p><b>Finally,</b> in <b>config/auth.php</b> file, we should set the driver oprion of api as passport</p>
+    <pre><b>
+            'api' => [
+                'driver' => 'passport',
+                'provider' => 'users',
+            ],
+        </b></pre>
+
+    <br>
+    <br>
+    <hr>
+    <h4>Generate the token while register a user</h4>
+    <pre><b>
+            $validation = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'email|required',
+            'password' => 'required',
+        ]);
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 202);//pass the errror as json format
+        }
+        $allData = $request->all();
+        $allData['password'] = bcrypt($allData['password']);
+
+        $user = USer::create($allData);
+        $resArr = [];
+        $resArr['token'] = $user->createToken('api-application')->accessToken; //generate the access token
+        $resArr['name'] = $user->name;
+        return response()->json($resArr, 200);
+        </b></pre>
+    <br>
+    <hr>
+    <h4>Generate the token while login</h4>
+    <br>
+    <pre><b>
+            $email = $request['email'];
+            $password = $request['password'];
+            if (Auth::attempt([
+                'email' => $email,
+                'password' => $password
+            ])) {
+                $user = Auth::user();
+                $resArr['token'] = $user->createToken('api-application')->accessToken;
+                $resArr['name'] = $user->name;
+                return response()->json($resArr, 200);
+            } else {
+                return response()->json(['error' => "unAuthorised Access"], 203);
+            }
+        </b></pre>
+    <br>
+    <h4>Logout</h4>
+    <pre><b>
+            public function logout (Request $request) {
+                $token = $request->user()->token();
+                $token->revoke();
+                $response = ['message' => 'You have been successfully logged out!'];
+                return response($response, 200);
+            }
+        </b></pre>
