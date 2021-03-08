@@ -19,3 +19,8 @@ Route::get('/', function () {
 });
 
 Route::get('/getModel', [ModelController::class, 'modelGet']);
+
+
+Route::get('/create-student', function () {
+    return view('admin.createStudent');
+});
