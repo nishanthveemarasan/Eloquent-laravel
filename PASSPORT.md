@@ -46,11 +46,13 @@
                 'driver' => 'passport',
                 'provider' => 'users',
             ],
-        </b></pre>
+    </b></pre>
 
-    <br>
-    <br>
-    <hr>
+   <br/>
+    <br/>
+     <hr/>
+    <h4>Generate the token while register a user</h4>
+     <hr/>
     <h4>Generate the token while register a user</h4>
     <pre><b>
             $validation = Validator::make($request->all(), [
@@ -61,9 +63,9 @@
         if ($validation->fails()) {
             return response()->json($validation->errors(), 202);//pass the errror as json format
         }
+        //
         $allData = $request->all();
         $allData['password'] = bcrypt($allData['password']);
-
         $user = USer::create($allData);
         $resArr = [];
         $resArr['token'] = $user->createToken('api-application')->accessToken; //generate the access token
@@ -99,3 +101,5 @@
                 return response($response, 200);
             }
         </b></pre>
+           
+        
