@@ -101,5 +101,15 @@
                 return response($response, 200);
             }
         </b></pre>
+        <br />
+         <h4>Protect routes with Passport</h4>
+    <pre><b>
+            Route::middleware('auth:api')->group(function () {
+                // our routes to be protected will go in here
+                Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
+            });
+            or
+            Route::apiResource('/ceo', 'Api\CEOController')->middleware('auth:api');
+        </b></pre>
            
         
