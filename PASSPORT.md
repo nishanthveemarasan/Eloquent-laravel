@@ -12,7 +12,7 @@
     <br>
     <h5>#intall passport to generate the Encryption keys</h5>
     <pre><b>
-        php artisan passport:install
+        php artisan passport:install --uuids
     </b></pre>
     <br>
     <p>After thaat add, <b>Laravel\Passport\HasApiTokens</b> in the user Model</p>
