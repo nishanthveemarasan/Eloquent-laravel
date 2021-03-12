@@ -103,6 +103,12 @@
             "username":"iamnishanthveema@gmail.com",
             "password":"12345678"
         }
+        //post man tesing in other urls we need to send thses two in the header
+            Content-Type: application/json,
+            Accept: application/json,
+            Authorization: Bearer {token}
+            //now we will be able to see the error reponse in json
+            //other wise it will be rodrect to login route which is defined in laravel middleare
         </b></pre>
         <br>
     <h4>Logout</h4>
