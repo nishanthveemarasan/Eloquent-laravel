@@ -47,7 +47,6 @@
                 'provider' => 'users',
             ],
     </b></pre>
-
    <br/>
     <br/>
      <hr/>
@@ -92,6 +91,20 @@
             }
         </b></pre>
     <br>
+    <h3>OR</h3>
+    <p><b>We can use the login url of passport library</b></p>
+    <pre><b>
+       {{BASE_URL}}/oauth/token    
+       //inputs
+       {
+            "client_id":"92ee6acc-5195-4691-9b0f-53638eaa35ff",
+            "grant_type":"password",
+            "client_secret":"Wb0MdVr9nLDkZz8gDNvilviHkFcC3ryg7gLWamuI",
+            "username":"iamnishanthveema@gmail.com",
+            "password":"12345678"
+        }
+        </b></pre>
+        <br>
     <h4>Logout</h4>
     <pre><b>
             public function logout (Request $request) {
@@ -110,6 +123,10 @@
             });
             or
             Route::apiResource('/ceo', 'Api\CEOController')->middleware('auth:api');
+            //we need to generate the keys
+             php artisan key:generate
         </b></pre>
+        <br>
+        php artisan key:generate
            
         
